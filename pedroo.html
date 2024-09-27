@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta regresiva hasta las 8:30 PM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #contador {
+            font-size: 48px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cuenta regresiva hasta las 8:30 PM</h1>
+    <div id="contador">Cargando...</div>
+
+    <script>
+        function actualizarContador() {
+            // Hora actual
+            const ahora = new Date();
+            
+            // Establecer las 8:30 PM
+            let objetivo = new Date();
+            objetivo.setHours(20, 30, 0); // 8:30 PM
+
+            // Si ya son más de las 8:30 PM, fijamos el contador al día siguiente
+            if (ahora > objetivo) {
+                objetivo.setDate(objetivo.getDate() + 1);
+            }
+
+            // Calcular la diferencia en milisegundos
+            const diferencia = objetivo - ahora;
+
+            // Convertir la diferencia en horas, minutos y segundos
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            // Mostrar el resultado en el elemento con id="contador"
+            document.getElementById("contador").innerHTML = `${horas}h ${minutos}m ${segundos}s`;
+
+            // Cuando llegue a las 8:30 PM
+            if (diferencia <= 0) {
+                clearInterval(cuentaRegresiva);
+                document.getElementById("contador").innerHTML = "¡Es hora!";
+            }
+        }
+
+        // Actualizar el contador cada segundo
+        const cuentaRegresiva = setInterval(actualizarContador, 1000);
+
+        // Iniciar la función al cargar la página
+        actualizarContador();
+    </script>
+</body>
+</html>
